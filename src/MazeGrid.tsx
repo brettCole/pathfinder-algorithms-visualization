@@ -3,18 +3,18 @@ import './MazeGrid.css'
 
 export default function MazeGrid({ width = 10, height = 10 }) {
   const [maze, setMaze] = useState<string[][]>([]);
-  const [timeoutIds, setTimeoutIds] = useState([]);
+  const [timeoutIds, setTimeoutIds] = useState<number[]>([]);
 
   useEffect(() => {
-    generateMaze(width, height);
+    generateMaze(height, width);
   }, []);
 
   // [1, 0] => '1,0'
-  function bfs(startNode) {
-    let queue = [startNode];
-    let visited = new Set(`${startNode[0]},${startNode[1]}`);
+  function bfs(startNode: number[]) {
+    const queue = [startNode];
+    const visited = new Set(`${startNode[0]},${startNode[1]}`);
 
-    function visitCell([x, y]) {
+    function visitCell([x, y]: number[]) {
       console.log(x, y);
 
       setMaze((prevMaze) => 
@@ -69,17 +69,17 @@ export default function MazeGrid({ width = 10, height = 10 }) {
       }
 
       const timeoutId = setTimeout(step, 100);
-      setTimeoutIds((previousTimeoutIds) => [...previousTimeoutIds, timeoutId]);
+      setTimeoutIds((previousTimeoutIds: number[]) => [...previousTimeoutIds, timeoutId]);
     }
     step()
     return false;
   }
 
-  function dfs(startNode) {
-    let stack = [startNode];
-    let visited = new Set(`${startNode[0]},${startNode[1]}`);
+  function dfs(startNode: number[]) {
+    const stack = [startNode];
+    const visited = new Set(`${startNode[0]},${startNode[1]}`);
 
-    function visitCell([x, y]) {
+    function visitCell([x, y]: number[]) {
       console.log(x, y);
 
       setMaze((prevMaze) => 
@@ -149,7 +149,6 @@ export default function MazeGrid({ width = 10, height = 10 }) {
     for (let i = 0; i < height; i++) {
       const row = [];
       for (let j = 0; j < width; j++) {
-        const cell = Math.random()
         row.push('wall');
       }
       matrix.push(row);
